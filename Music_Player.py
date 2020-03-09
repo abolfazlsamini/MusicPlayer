@@ -47,8 +47,6 @@ def inputManager():
 		mixer.music.load(songsList[shuffleList[cursor]][0])
 		mixer.music.set_volume(1)
 		mixer.music.play()
-		startTime = datetime.datetime.now().timestamp()
-		currentDuration = MP3(songsList[shuffleList[cursor]][0]).info.length
 
 		return temp
 

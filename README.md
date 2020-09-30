@@ -1,2 +1,3 @@
 # Music Player
-A realy easy to work music player writen in python
+A fully functional and user friendly music player
+

@@ -68,7 +68,7 @@ def inputManager():
 			return directory
 		else:
 			print("No songs were found\n")
-			inputManager()
+			return inputManager()
 
 
 	elif tempp == 'r' or tempp == 'R':
@@ -83,7 +83,7 @@ def inputManager():
 		return 'e'
 	else:# this doesn't work for some reason
 		print("Invalid input")
-		inputManager()
+		return inputManager()
 
 directory = inputManager()
 if not os.path.isfile(directory) and os.path.exists(directory):# if the first input is folder
@@ -93,10 +93,16 @@ if not os.path.isfile(directory) and os.path.exists(directory):# if the first in
 	mixer.music.set_volume(1)
 	mixer.music.play()
 
+
 while mixer.music.get_busy():# this obviesly saying if the player is playing a song then:...
+	
+	os.system('CLS')
 	print("******MENUE********\nP to pause\nR to resume\nE to exit \nN or just press Enter to next\nB to back\n*******************")
-	print(str(songsList[shuffleList[cursor]][1]) + " is playing")
-	control = inputManager()
+	if not len(songsList) == 0:
+		print(str(songsList[shuffleList[cursor]][1]) + " is playing")
+		control = inputManager()
+	else:
+		inputManager()
 
 	if os.path.isfile(control) and control.endswith(".mp3"): # if the second input is song
 		print("New directory from song registered\n")
@@ -107,11 +113,11 @@ while mixer.music.get_busy():# this obviesly saying if the player is playing a s
 		mixer.music.set_volume(1)
 		mixer.music.play()
 
-	if os.path.isfile(control) and not control.endswith(".mp3"):# this is a unsucsessful attempt of mine trying to make a smart move so that when user inputs a valid but epty from mp3 files it says this
+	elif os.path.isfile(control) and not control.endswith(".mp3"):# this is a unsucsessful attempt of mine trying to make a smart move so that when user inputs a valid but epty from mp3 files it says this
 		print("Can\'t play this file format")
 		inputManager()
 
-	if os.path.exists(control) and not os.path.isfile(control): # if the second input is folder
+	elif os.path.exists(control) and not os.path.isfile(control): # if the second input is folder
 		print("\nNew directory from folder registered")
 		songsList = []
 		shuffleList = []
@@ -133,10 +139,10 @@ while mixer.music.get_busy():# this obviesly saying if the player is playing a s
 			mixer.music.play()
 		else:
 			print("no songs were found\n")
-			inputManager()
+			pass
 
 
-	if control == 'p':
+	elif control == 'p':
 		mixer.music.pause()
 
 	elif control == 'r':
@@ -145,31 +151,45 @@ while mixer.music.get_busy():# this obviesly saying if the player is playing a s
 	elif control == 'n':
 		cursor += 1
 		if cursor < len(shuffleList)-1:
-			mixer.music.stop()
-			mixer.music.load(songsList[shuffleList[cursor]][0])
-			mixer.music.set_volume(1)
-			mixer.music.play()
+			if not len(songsList) == 0:
+				mixer.music.stop()
+				mixer.music.load(songsList[shuffleList[cursor]][0])
+				mixer.music.set_volume(1)
+				mixer.music.play()
+			else :
+				pass
 		else:
-			cursor = 0
-			mixer.music.stop()
-			mixer.music.load(songsList[shuffleList[cursor]][0])
-			mixer.music.set_volume(1)
-			mixer.music.play()
+			if not len(songsList) == 0:
+				cursor = 0
+				mixer.music.stop()
+				mixer.music.load(songsList[shuffleList[cursor]][0])
+				mixer.music.set_volume(1)
+				mixer.music.play()
+			else :
+				pass
 
 	elif control == 'b':
 		cursor -= 1
 		if cursor > 0:
-			mixer.music.stop()
-			mixer.music.load(songsList[shuffleList[cursor]][0])
-			mixer.music.set_volume(1)
-			mixer.music.play()
+			if not len(songsList) == 0:
+				mixer.music.stop()
+				mixer.music.load(songsList[shuffleList[cursor]][0])
+				mixer.music.set_volume(1)
+				mixer.music.play()
+			else :
+				pass
 		else:
-			cursor = len(shuffleList)-1
-			mixer.music.stop()
-			mixer.music.load(songsList[shuffleList[cursor]][0])
-			mixer.music.set_volume(1)
-			mixer.music.play()
+			if not len(songsList) == 0:
+				cursor = len(shuffleList)-1
+				mixer.music.stop()
+				mixer.music.load(songsList[shuffleList[cursor]][0])
+				mixer.music.set_volume(1)
+				mixer.music.play()
+			else :
+				pass
 
 	elif control == 'e':
 		mixer.music.stop()
 		break
+	else :
+		inputManager()
